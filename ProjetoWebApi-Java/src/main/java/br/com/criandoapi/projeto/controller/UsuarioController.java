@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.criandoapi.projeto.model.Usuario;
-import br.com.criandoapi.projeto.repository.IUsuario;
 import br.com.criandoapi.projeto.service.UsuarioService;
 
 @RestController
@@ -23,8 +22,6 @@ import br.com.criandoapi.projeto.service.UsuarioService;
 @RequestMapping("/usuarios")
 public class UsuarioController{
 	
-	@Autowired
-	private IUsuario dao;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -45,13 +42,13 @@ public class UsuarioController{
 
 	@PutMapping
 	public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
-		Usuario usuarioNovo = dao.save(usuario);
-		return ResponseEntity.status(201).body(usuarioNovo);
+		return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
+
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> excluirUsuario (@PathVariable Integer id) {
-		dao.deleteById(id);
+		usuarioService.excluirUsuario(id);
 		return ResponseEntity.status(204).build();
 	}
 }
